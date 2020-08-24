@@ -5,8 +5,16 @@ class MarkersController < ApplicationController
   end
 
   def create
+    marker = Marker.create(marker_params)
+    render json: marker, except: [:updated_at, :user_id]
   end
 
   def destroy
+  end
+
+  private
+  
+  def marker_params
+    params.require(:marker).permit(:title, :lat, :long, :user_id)
   end
 end
