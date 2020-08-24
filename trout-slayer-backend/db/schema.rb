@@ -16,10 +16,11 @@ ActiveRecord::Schema.define(version: 2020_08_24_155155) do
   enable_extension "plpgsql"
 
   create_table "markers", force: :cascade do |t|
-    t.string "name"
+    t.string "title"
     t.string "description"
     t.decimal "lat", precision: 10, scale: 6
     t.decimal "long", precision: 10, scale: 6
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
