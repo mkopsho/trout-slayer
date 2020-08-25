@@ -1,8 +1,9 @@
+const markersAdapter = new MarkersAdapter()
+
 const BASE_URL = 'http://localhost:3000'
 const MARKERS_URL = `${BASE_URL}/markers`
 const USERS_URL = `${BASE_URL}/users`
 
-// Map and markers
 function createMap() {
   // To do: try geolocation
   const map = new google.maps.Map(document.getElementById('map'), {
@@ -12,20 +13,7 @@ function createMap() {
   map.addListener('click', function (e) {
     createNewMarker(e.latLng, map)
   })
-  fetchSavedMarkers(map)
-}
-
-function fetchSavedMarkers(map) {
-  fetch(MARKERS_URL)
-    .then((response) => {
-      return response.json()
-    })
-    .then((markers) => {
-      renderSavedMarkers(markers, map)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  markersAdapter.fetchSavedMarkers(map)
 }
 
 function renderSavedMarkers(markers, map) {
@@ -112,42 +100,10 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
         newMarkerLure,
         newMarkerWeather,
       }
-      saveMarker(latLng, saveArgs)
+      markersAdapter.saveMarker(latLng, saveArgs)
       e.preventDefault()
     })
   })
-}
-
-function saveMarker(latLng, saveArgs) {
-  debugger
-  let configObj = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      title: saveArgs.newMarkerTitle,
-      description: saveArgs.newMarkerDesc,
-      fish_type: saveArgs.newMarkerFish,
-      lure_and_bait: saveArgs.newMarkerLure,
-      weather_conditions: saveArgs.newMarkerWeather,
-      // test user_id -- update when ready
-      user_id: 7,
-      lat: latLng.lat(),
-      long: latLng.lng(),
-    }),
-  }
-  fetch(MARKERS_URL, configObj)
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      console.log('Success:', data)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
 }
 
 // // Signup and login
