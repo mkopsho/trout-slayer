@@ -1,4 +1,4 @@
-# Clean slate
+# Clean the slate
 User.delete_all
 Marker.delete_all
 

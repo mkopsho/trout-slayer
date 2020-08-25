@@ -1,6 +1,8 @@
 const BASE_URL = 'http://localhost:3000'
 const MARKERS_URL = `${BASE_URL}/markers`
+const USERS_URL = `${BASE_URL}/users`
 
+// Map and markers
 function createMap() {
   // To do: try geolocation
   const map = new google.maps.Map(document.getElementById('map'), {
@@ -72,10 +74,10 @@ function placeMarker(marker, latLng, map, infoWindow) {
   marker.addListener('click', function () {
     infoWindow.open(map, marker)
   })
-  formListener(marker, latLng, infoWindow)
+  formListener(latLng, infoWindow)
 }
 
-function formListener(marker, latLng, infoWindow) {
+function formListener(latLng, infoWindow) {
   infoWindow.addListener('domready', function () {
     document.querySelector('form').addEventListener('submit', function (e) {
       let formInputDiv = document.createElement('div')
@@ -86,13 +88,13 @@ function formListener(marker, latLng, infoWindow) {
       formInputDiv.appendChild(formInputTitle)
       formInputDiv.appendChild(formInputDescription)
       infoWindow.setContent(formInputDiv)
-      saveMarker(marker, latLng, formInputTitle, formInputDescription)
+      saveMarker(latLng, formInputTitle, formInputDescription)
       e.preventDefault()
     })
   })
 }
 
-function saveMarker(marker, latLng, formInputTitle, formInputDescription) {
+function saveMarker(latLng, formInputTitle, formInputDescription) {
   let configObj = {
     method: 'POST',
     headers: {
@@ -104,7 +106,7 @@ function saveMarker(marker, latLng, formInputTitle, formInputDescription) {
       title: formInputTitle.innerText,
       description: formInputDescription.innerText,
       // test user_id -- update when ready
-      user_id: 2,
+      user_id: 6,
       lat: latLng.lat(),
       long: latLng.lng(),
     }),
@@ -121,6 +123,72 @@ function saveMarker(marker, latLng, formInputTitle, formInputDescription) {
     })
 }
 
+// // Signup and login
+// function signupAndLoginListeners() {
+//   // Listen to the forms to submit associated data
+//   const signupForm = document.getElementById('signup-form')
+//   const loginForm = document.getElementById('login-form')
+//   signupForm.addEventListener('submit', function (e) {
+//     let username = document.getElementById('signup-username').value
+//     let email = document.getElementById('signup-email').value
+//     let password = document.getElementById('signup-password').value
+//     saveUser(username, email, password)
+//     e.preventDefault()
+//   })
+//   loginForm.addEventListener('submit', function (e) {
+//     console.log('log-in form submitted but should not reload')
+//     e.preventDefault()
+//   })
+//   // Listen to the buttons to show associated forms
+//   const signupButton = document.getElementById('signup-button')
+//   const loginButton = document.getElementById('login-button')
+//   signupButton.addEventListener('click', function () {
+//     openSignupForm()
+//   })
+//   loginButton.addEventListener('click', function () {
+//     openLoginForm()
+//   })
+// }
+
+// // Handle forms (in index.html; hidden by default)
+// function openSignupForm() {
+//   document.getElementById('signup-form').style.visibility = 'visible'
+// }
+
+// function openLoginForm() {
+//   document.getElementById('login-form').style.visibility = 'visible'
+// }
+
+// function closeForm() {
+//   document.querySelector('.form-popup').style.visibility = 'hidden'
+// }
+
+// function saveUser(username, email, password) {
+//   let configObj = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Accept: 'application/json',
+//     },
+//     body: JSON.stringify({
+//       username,
+//       email,
+//       password,
+//     }),
+//   }
+//   fetch(USERS_URL, configObj)
+//     .then((response) => {
+//       return response.json()
+//     })
+//     .then((data) => {
+//       console.log('Success:', data)
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//     })
+// }
+
 document.addEventListener('DOMContentLoaded', function () {
   createMap()
+  //signupAndLoginListeners()
 })

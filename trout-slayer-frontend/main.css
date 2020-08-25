@@ -2,8 +2,26 @@
   height: 85%;
 }
 
+#top {
+  text-align: center;
+}
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+/* Fix this */
+.form-popup {
+  position: absolute;
+  top: 150px;
+  right: 0px;
+  z-index: 9;
+}
+
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
 }
