@@ -34,7 +34,13 @@ function renderSavedMarkers(markers, map) {
     const newMarker = new google.maps.Marker({
       position: latLng,
     })
-    const markerContent = `<h1>${marker.title}</h1><p>${marker.description}</p>`
+    const markerContent = `
+      <h1>${marker.title}</h1>
+      <strong>Description:</strong> <p>${marker.description}</p>
+      <strong>Fish:</strong> <p>${marker.fish_type}</p>
+      <strong>Lure:</strong> <p>${marker.lure_and_bait}</p>
+      <strong>Weather:</strong> <p>${marker.weather_conditions}</p>
+    `
     const infoWindow = new google.maps.InfoWindow({
       content: markerContent,
       maxWidth: 200,
@@ -53,11 +59,17 @@ function createNewMarker(latLng, map) {
     position: latLng,
   })
   const markerForm = `
-  <form id="marker-form" action="#" method="post">
+  <form id="marker-form">
     <label for="title">Title:</label><br>
     <input type="text" id="new-marker-title" name="title">
     <label for="Description">Description:</label><br>
     <input type="text" id="new-marker-description" name="description">
+    <label for="Fish">Fish Type:</label><br>
+    <input type="text" id="new-marker-fish-type" name="fish-type">
+    <label for="Fish">Lure and/or bait:</label><br>
+    <input type="text" id="new-marker-lure-bait" name="lure-bait">
+    <label for="Fish">Weather conditions:</label><br>
+    <input type="text" id="new-marker-weather-conditions" name="weather-conditions">
     <input type="submit" value="Submit catch">
   </form>`
   const infoWindow = new google.maps.InfoWindow({
@@ -74,39 +86,54 @@ function placeMarker(marker, latLng, map, infoWindow) {
   marker.addListener('click', function () {
     infoWindow.open(map, marker)
   })
-  formListener(latLng, infoWindow)
+  formListenerAndValueGatherer(latLng, infoWindow)
 }
 
-function formListener(latLng, infoWindow) {
+function formListenerAndValueGatherer(latLng, infoWindow) {
   infoWindow.addListener('domready', function () {
     document.querySelector('form').addEventListener('submit', function (e) {
-      let formInputDiv = document.createElement('div')
-      let formInputTitle = document.createElement('h1')
-      formInputTitle.innerText = document.getElementById('new-marker-title').value
-      let formInputDescription = document.createElement('p')
-      formInputDescription.innerText = document.getElementById('new-marker-description').value
-      formInputDiv.appendChild(formInputTitle)
-      formInputDiv.appendChild(formInputDescription)
-      infoWindow.setContent(formInputDiv)
-      saveMarker(latLng, formInputTitle, formInputDescription)
+      const newMarkerTitle = document.getElementById('new-marker-title').value
+      const newMarkerDesc = document.getElementById('new-marker-description').value
+      const newMarkerFish = document.getElementById('new-marker-fish-type').value
+      const newMarkerLure = document.getElementById('new-marker-lure-bait').value
+      const newMarkerWeather = document.getElementById('new-marker-weather-conditions').value
+      const newMarkerContent = `
+        <h1>${newMarkerTitle}</h1>
+        <strong>Description:</strong> <p>${newMarkerDesc}</p>
+        <strong>Fish:</strong> <p>${newMarkerFish}</p>
+        <strong>Lure:</strong> <p>${newMarkerLure}</p>
+        <strong>Weather:</strong> <p>${newMarkerWeather}</p>
+      `
+      infoWindow.setContent(newMarkerContent)
+      let saveArgs = {
+        newMarkerTitle,
+        newMarkerDesc,
+        newMarkerFish,
+        newMarkerLure,
+        newMarkerWeather,
+      }
+      saveMarker(latLng, saveArgs)
       e.preventDefault()
     })
   })
 }
 
-function saveMarker(latLng, formInputTitle, formInputDescription) {
+function saveMarker(latLng, saveArgs) {
+  debugger
   let configObj = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    // To do: add correct attrs (description, *actual* user_id (once signup is built), etc.)
     body: JSON.stringify({
-      title: formInputTitle.innerText,
-      description: formInputDescription.innerText,
+      title: saveArgs.newMarkerTitle,
+      description: saveArgs.newMarkerDesc,
+      fish_type: saveArgs.newMarkerFish,
+      lure_and_bait: saveArgs.newMarkerLure,
+      weather_conditions: saveArgs.newMarkerWeather,
       // test user_id -- update when ready
-      user_id: 6,
+      user_id: 7,
       lat: latLng.lat(),
       long: latLng.lng(),
     }),

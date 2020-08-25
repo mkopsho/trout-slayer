@@ -18,6 +18,9 @@ ActiveRecord::Schema.define(version: 2020_08_24_155155) do
   create_table "markers", force: :cascade do |t|
     t.string "title"
     t.string "description"
+    t.string "fish_type"
+    t.string "weather_conditions"
+    t.string "lure_and_bait"
     t.decimal "lat", precision: 10, scale: 6
     t.decimal "long", precision: 10, scale: 6
     t.integer "user_id"
