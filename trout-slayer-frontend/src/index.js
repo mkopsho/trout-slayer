@@ -32,7 +32,7 @@ function renderSavedMarkers(markers, map) {
     const newMarker = new google.maps.Marker({
       position: latLng,
     })
-    const markerContent = `<h1>${marker.title}</h1>` + `<p>${marker.description}</p>`
+    const markerContent = `<h1>${marker.title}</h1><p>${marker.description}</p>`
     const infoWindow = new google.maps.InfoWindow({
       content: markerContent,
       maxWidth: 200,
@@ -49,14 +49,7 @@ function createNewMarker(latLng, map) {
     animation: google.maps.Animation.DROP,
     draggable: true,
     position: latLng,
-    title: 'Marker Title',
   })
-  placeMarker(marker, latLng, map)
-  saveMarker(marker, latLng)
-}
-
-function placeMarker(marker, latLng, map) {
-  // To do: change to form
   const markerForm = `
   <form id="marker-form" action="#" method="post">
     <label for="title">Title:</label><br>
@@ -69,27 +62,37 @@ function placeMarker(marker, latLng, map) {
     content: markerForm,
     maxWidth: 200,
   })
+  placeMarker(marker, latLng, map, infoWindow)
+}
+
+function placeMarker(marker, latLng, map, infoWindow) {
   map.panTo(latLng)
   marker.setMap(map)
   infoWindow.open(map, marker)
-  google.maps.event.addListener(marker, 'click', function () {
+  marker.addListener('click', function () {
     infoWindow.open(map, marker)
+  })
+  formListener(marker, latLng, infoWindow)
+}
+
+function formListener(marker, latLng, infoWindow) {
+  infoWindow.addListener('domready', function () {
+    document.querySelector('form').addEventListener('submit', function (e) {
+      let formInputDiv = document.createElement('div')
+      let formInputTitle = document.createElement('h1')
+      formInputTitle.innerText = document.getElementById('new-marker-title').value
+      let formInputDescription = document.createElement('p')
+      formInputDescription.innerText = document.getElementById('new-marker-description').value
+      formInputDiv.appendChild(formInputTitle)
+      formInputDiv.appendChild(formInputDescription)
+      infoWindow.setContent(formInputDiv)
+      saveMarker(marker, latLng, formInputTitle, formInputDescription)
+      e.preventDefault()
+    })
   })
 }
 
-// To do: figure out race condition with this form var:
-// var newForm = document.querySelector('form')
-//   debugger
-//   newForm.addDomListener('submit', function (e) {
-//     console.log('form submitted but should not reload')
-//     let formInputTitle = document.getElementById('new-marker-title').value
-//     let formInputDescription = document.getElementById('new-marker-description').value
-//     let newMarker = '<li>' + formInputDescription + '</li>'
-//     infoWindow.content += newMarker
-//     e.preventDefault()
-//   })
-
-function saveMarker(marker, latLng) {
+function saveMarker(marker, latLng, formInputTitle, formInputDescription) {
   let configObj = {
     method: 'POST',
     headers: {
@@ -98,9 +101,10 @@ function saveMarker(marker, latLng) {
     },
     // To do: add correct attrs (description, *actual* user_id (once signup is built), etc.)
     body: JSON.stringify({
-      title: marker.title,
-      // description: xxx,
-      user_id: 1,
+      title: formInputTitle.innerText,
+      description: formInputDescription.innerText,
+      // test user_id -- update when ready
+      user_id: 2,
       lat: latLng.lat(),
       long: latLng.lng(),
     }),
