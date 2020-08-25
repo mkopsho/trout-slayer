@@ -106,72 +106,76 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
   })
 }
 
-// // Signup and login
-// function signupAndLoginListeners() {
-//   // Listen to the forms to submit associated data
-//   const signupForm = document.getElementById('signup-form')
-//   const loginForm = document.getElementById('login-form')
-//   signupForm.addEventListener('submit', function (e) {
-//     let username = document.getElementById('signup-username').value
-//     let email = document.getElementById('signup-email').value
-//     let password = document.getElementById('signup-password').value
-//     saveUser(username, email, password)
-//     e.preventDefault()
-//   })
-//   loginForm.addEventListener('submit', function (e) {
-//     console.log('log-in form submitted but should not reload')
-//     e.preventDefault()
-//   })
-//   // Listen to the buttons to show associated forms
-//   const signupButton = document.getElementById('signup-button')
-//   const loginButton = document.getElementById('login-button')
-//   signupButton.addEventListener('click', function () {
-//     openSignupForm()
-//   })
-//   loginButton.addEventListener('click', function () {
-//     openLoginForm()
-//   })
-// }
+// Signup and login
+function signupAndLoginListeners() {
+  // Listen to the forms to submit associated data
+  const signupForm = document.getElementById('signup-form')
+  const loginForm = document.getElementById('login-form')
+  signupForm.addEventListener('submit', function (e) {
+    let username = document.getElementById('signup-username').value
+    let email = document.getElementById('signup-email').value
+    let password = document.getElementById('signup-password').value
+    saveUser(username, email, password)
+    e.preventDefault()
+  })
+  loginForm.addEventListener('submit', function (e) {
+    console.log('log-in form submitted but should not reload')
+    e.preventDefault()
+  })
+  // Listen to the buttons to show associated forms
+  const signupButton = document.getElementById('signup-button')
+  const loginButton = document.getElementById('login-button')
+  signupButton.addEventListener('click', function () {
+    console.log('signup button clicked')
+    openSignupForm()
+  })
+  loginButton.addEventListener('click', function () {
+    console.log('login button clicked')
+    openLoginForm()
+  })
+}
 
-// // Handle forms (in index.html; hidden by default)
-// function openSignupForm() {
-//   document.getElementById('signup-form').style.visibility = 'visible'
-// }
+// Handle forms (in index.html; hidden by default)
+function openSignupForm() {
+  document.getElementById('signup-form').style.visibility = 'visible'
+}
 
-// function openLoginForm() {
-//   document.getElementById('login-form').style.visibility = 'visible'
-// }
+function openLoginForm() {
+  document.getElementById('login-form').style.visibility = 'visible'
+}
 
-// function closeForm() {
-//   document.querySelector('.form-popup').style.visibility = 'hidden'
-// }
+function closeForm() {
+  document.querySelectorAll('.form-popup').forEach((form) => {
+    form.style.visibility = 'hidden'
+  })
+}
 
-// function saveUser(username, email, password) {
-//   let configObj = {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Accept: 'application/json',
-//     },
-//     body: JSON.stringify({
-//       username,
-//       email,
-//       password,
-//     }),
-//   }
-//   fetch(USERS_URL, configObj)
-//     .then((response) => {
-//       return response.json()
-//     })
-//     .then((data) => {
-//       console.log('Success:', data)
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//     })
-// }
+function saveUser(username, email, password) {
+  let configObj = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      username,
+      email,
+      password,
+    }),
+  }
+  fetch(USERS_URL, configObj)
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      console.log('Success:', data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function (e) {
   createMap()
-  //signupAndLoginListeners()
+  signupAndLoginListeners()
 })
