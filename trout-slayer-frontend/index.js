@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:3000'
 const MARKERS_URL = `${BASE_URL}/markers`
 const USERS_URL = `${BASE_URL}/users`
 const SESSIONS_URL = `${BASE_URL}/sessions`
-const session = []
+let session = []
 
 function createMap() {
   // To do: try geolocation
@@ -220,6 +220,9 @@ function setUser(id) {
 
 function logoutUser() {
   session = []
+  document.getElementById('signup-button').style.visibility = 'visible'
+  document.getElementById('login-button').style.visibility = 'visible'
+  document.getElementById('logout-button').style.visibility = 'hidden'
 }
 
 document.addEventListener('DOMContentLoaded', function (e) {
