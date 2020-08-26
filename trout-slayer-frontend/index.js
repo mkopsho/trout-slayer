@@ -4,8 +4,11 @@ const MARKERS_URL = `${BASE_URL}/markers`
 const USERS_URL = `${BASE_URL}/users`
 const SESSIONS_URL = `${BASE_URL}/sessions`
 const MAP_ICONS = 'http://maps.google.com/mapfiles/ms/icons/'
+
 let session = {}
-allMarkers = []
+let allMarkers = []
+
+// To do: explore custom popups with edit/delete directives
 
 function createMap() {
   // To do: try geolocation
