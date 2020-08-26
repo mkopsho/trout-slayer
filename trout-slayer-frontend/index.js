@@ -126,7 +126,6 @@ function signupAndLoginListeners() {
   const signupButton = document.getElementById('signup-button')
   const loginButton = document.getElementById('login-button')
   signupButton.addEventListener('click', function () {
-    console.log('signup button clicked')
     openSignupForm()
   })
   loginButton.addEventListener('click', function () {
@@ -151,19 +150,19 @@ function closeForm() {
 }
 
 function saveUser(username, email, password) {
-  let configObj = {
+  let userObj = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
     body: JSON.stringify({
-      username,
-      email,
-      password,
+      username: username,
+      email: email,
+      password: password,
     }),
   }
-  fetch(USERS_URL, configObj)
+  fetch(USERS_URL, userObj)
     .then((response) => {
       return response.json()
     })
