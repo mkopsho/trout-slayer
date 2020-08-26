@@ -19,7 +19,7 @@ class MarkersAdapter {
       })
   }
 
-  saveMarker(latLng, saveArgs) {
+  saveMarker(latLng, saveArgs, session) {
     let configObj = {
       method: 'POST',
       headers: {
@@ -32,8 +32,7 @@ class MarkersAdapter {
         fish_type: saveArgs.newMarkerFish,
         lure_and_bait: saveArgs.newMarkerLure,
         weather_conditions: saveArgs.newMarkerWeather,
-        // To do: update user_id when ready
-        user_id: 7,
+        user_id: session.id,
         lat: latLng.lat(),
         long: latLng.lng(),
       }),
@@ -44,6 +43,7 @@ class MarkersAdapter {
       })
       .then((data) => {
         console.log('Success:', data)
+        new Marker(data)
       })
       .catch((error) => {
         console.log(error)

@@ -5,7 +5,6 @@ class MarkersController < ApplicationController
   end
 
   def create
-    binding.pry
     marker = Marker.create(marker_params)
     render json: marker, except: [:updated_at, :user_id]
   end

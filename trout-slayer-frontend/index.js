@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:3000'
 const MARKERS_URL = `${BASE_URL}/markers`
 const USERS_URL = `${BASE_URL}/users`
 const SESSIONS_URL = `${BASE_URL}/sessions`
-let session = []
+let session = {}
 
 function createMap() {
   // To do: try geolocation
@@ -102,7 +102,7 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
         newMarkerLure,
         newMarkerWeather,
       }
-      markersAdapter.saveMarker(latLng, saveArgs)
+      markersAdapter.saveMarker(latLng, saveArgs, session)
       e.preventDefault()
     })
   })
@@ -208,22 +208,36 @@ function logInUser(username, password) {
 }
 
 function setUser(id) {
-  session.push(id)
+  session.id = id
   document.getElementById('signup-button').style.visibility = 'hidden'
   document.getElementById('login-button').style.visibility = 'hidden'
   document.getElementById('logout-button').style.visibility = 'visible'
   document.getElementsByName('user-markers').forEach((el) => {
     el.style.visibility = 'visible'
   })
+  toggleListener()
 }
 
 function logoutUser() {
-  session = []
+  session = {}
   document.getElementById('signup-button').style.visibility = 'visible'
   document.getElementById('login-button').style.visibility = 'visible'
   document.getElementById('logout-button').style.visibility = 'hidden'
   document.getElementsByName('user-markers').forEach((el) => {
     el.style.visibility = 'hidden'
+  })
+}
+
+function toggleListener() {
+  const toggleButton = document.querySelector('#user-markers')
+  toggleButton.addEventListener('click', function () {
+    console.log('Toggle was toggled')
+    userMarkers = []
+    Marker.all.forEach((marker) => {
+      if (marker.user_id === session.id) {
+        userMarkers.push(marker)
+      }
+    })
   })
 }
 
