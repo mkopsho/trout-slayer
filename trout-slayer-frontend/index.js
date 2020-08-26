@@ -3,7 +3,9 @@ const BASE_URL = 'http://localhost:3000'
 const MARKERS_URL = `${BASE_URL}/markers`
 const USERS_URL = `${BASE_URL}/users`
 const SESSIONS_URL = `${BASE_URL}/sessions`
+const MAP_ICONS = 'http://maps.google.com/mapfiles/ms/icons/'
 let session = {}
+allMarkers = []
 
 function createMap() {
   // To do: try geolocation
@@ -12,7 +14,11 @@ function createMap() {
     zoom: 5,
   })
   map.addListener('click', function (e) {
-    createNewMarker(e.latLng, map)
+    if (session.id) {
+      createNewMarker(e.latLng, map)
+    } else {
+      errorHandler('Create a user or log in first!')
+    }
   })
   markersAdapter.fetchSavedMarkers(map)
 }
@@ -22,6 +28,8 @@ function renderSavedMarkers(markers, map) {
     const latLng = { lat: parseFloat(marker.lat), lng: parseFloat(marker.long) }
     const newMarker = new google.maps.Marker({
       position: latLng,
+      label: marker.user_id.toString(),
+      icon: MAP_ICONS + 'fishing.png',
     })
     const markerContent = `
       <h1>${marker.title}</h1>
@@ -34,6 +42,7 @@ function renderSavedMarkers(markers, map) {
       content: markerContent,
       maxWidth: 200,
     })
+    allMarkers.push(newMarker)
     newMarker.setMap(map)
     google.maps.event.addListener(newMarker, 'click', function () {
       infoWindow.open(map, newMarker)
@@ -44,8 +53,9 @@ function renderSavedMarkers(markers, map) {
 function createNewMarker(latLng, map) {
   const marker = new google.maps.Marker({
     animation: google.maps.Animation.DROP,
-    draggable: true,
     position: latLng,
+    label: session.id.toString(),
+    icon: MAP_ICONS + 'fishing.png',
   })
   const markerForm = `
   <form id="marker-form">
@@ -65,6 +75,7 @@ function createNewMarker(latLng, map) {
     content: markerForm,
     maxWidth: 200,
   })
+  allMarkers.push(marker)
   placeMarker(marker, latLng, map, infoWindow)
 }
 
@@ -214,7 +225,7 @@ function setUser(id) {
   document.getElementsByName('user-markers').forEach((el) => {
     el.style.visibility = 'visible'
   })
-  toggleListener()
+  toggleButtonListener()
 }
 
 function logoutUser() {
@@ -227,16 +238,21 @@ function logoutUser() {
   })
 }
 
-function toggleListener() {
+function toggleButtonListener() {
   const toggleButton = document.querySelector('#user-markers')
-  toggleButton.addEventListener('click', function () {
+  toggleButton.addEventListener('change', function () {
     console.log('Toggle was toggled')
-    userMarkers = []
-    Marker.all.forEach((marker) => {
-      if (marker.user_id === session.id) {
-        userMarkers.push(marker)
-      }
-    })
+    if (this.checked) {
+      allMarkers.forEach((marker) => {
+        if (marker.label == session.id) {
+          marker.setIcon(MAP_ICONS + 'red-dot.png')
+        }
+      })
+    } else {
+      allMarkers.forEach((marker) => {
+        marker.setIcon(MAP_ICONS + 'fishing.png')
+      })
+    }
   })
 }
 
