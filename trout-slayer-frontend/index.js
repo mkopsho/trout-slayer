@@ -4,6 +4,7 @@ const BASE_URL = 'http://localhost:3000'
 const MARKERS_URL = `${BASE_URL}/markers`
 const USERS_URL = `${BASE_URL}/users`
 const SESSIONS_URL = `${BASE_URL}/sessions`
+const session = []
 
 function createMap() {
   // To do: try geolocation
@@ -108,8 +109,8 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
 }
 
 // Signup and login
+// To do: move to classes/adapters
 function signupAndLoginListeners() {
-  // Listen to the forms to submit associated data
   const signupForm = document.getElementById('signup-form')
   const loginForm = document.getElementById('login-form')
   signupForm.addEventListener('submit', function (e) {
@@ -127,14 +128,17 @@ function signupAndLoginListeners() {
     closeForm()
     e.preventDefault()
   })
-  // Listen to the buttons to show associated forms
   const signupButton = document.getElementById('signup-button')
   const loginButton = document.getElementById('login-button')
+  const logoutButton = document.getElementById('logout-button')
   signupButton.addEventListener('click', function () {
     openSignupForm()
   })
   loginButton.addEventListener('click', function () {
     openLoginForm()
+  })
+  logoutButton.addEventListener('click', function () {
+    logoutUser()
   })
 }
 
@@ -172,6 +176,10 @@ function saveUser(username, email, password) {
     })
     .then((data) => {
       console.log('Success:', data)
+      setUser(data.id)
+      document.getElementById('signup-button').style.visibility = 'hidden'
+      document.getElementById('login-button').style.visibility = 'hidden'
+      document.getElementById('logout-button').style.visibility = 'visible'
     })
     .catch((error) => {
       console.log(error)
@@ -196,10 +204,22 @@ function logInUser(username, password) {
     })
     .then((data) => {
       console.log('Success:', data)
+      setUser(data.id)
+      document.getElementById('signup-button').style.visibility = 'hidden'
+      document.getElementById('login-button').style.visibility = 'hidden'
+      document.getElementById('logout-button').style.visibility = 'visible'
     })
     .catch((error) => {
       console.log(error)
     })
+}
+
+function setUser(id) {
+  session.push(id)
+}
+
+function logoutUser() {
+  session = []
 }
 
 document.addEventListener('DOMContentLoaded', function (e) {

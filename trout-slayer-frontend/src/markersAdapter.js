@@ -32,7 +32,7 @@ class MarkersAdapter {
         fish_type: saveArgs.newMarkerFish,
         lure_and_bait: saveArgs.newMarkerLure,
         weather_conditions: saveArgs.newMarkerWeather,
-        // test user_id -- update when ready
+        // To do: update user_id when ready
         user_id: 7,
         lat: latLng.lat(),
         long: latLng.lng(),
