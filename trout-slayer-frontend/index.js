@@ -142,7 +142,6 @@ function signupAndLoginListeners() {
   })
 }
 
-// Handle forms (in index.html; hidden by default)
 function openSignupForm() {
   document.getElementById('signup-form').style.visibility = 'visible'
 }
@@ -177,9 +176,6 @@ function saveUser(username, email, password) {
     .then((data) => {
       console.log('Success:', data)
       setUser(data.id)
-      document.getElementById('signup-button').style.visibility = 'hidden'
-      document.getElementById('login-button').style.visibility = 'hidden'
-      document.getElementById('logout-button').style.visibility = 'visible'
     })
     .catch((error) => {
       console.log(error)
@@ -205,9 +201,6 @@ function logInUser(username, password) {
     .then((data) => {
       console.log('Success:', data)
       setUser(data.id)
-      document.getElementById('signup-button').style.visibility = 'hidden'
-      document.getElementById('login-button').style.visibility = 'hidden'
-      document.getElementById('logout-button').style.visibility = 'visible'
     })
     .catch((error) => {
       console.log(error)
@@ -216,6 +209,12 @@ function logInUser(username, password) {
 
 function setUser(id) {
   session.push(id)
+  document.getElementById('signup-button').style.visibility = 'hidden'
+  document.getElementById('login-button').style.visibility = 'hidden'
+  document.getElementById('logout-button').style.visibility = 'visible'
+  document.getElementsByName('user-markers').forEach((el) => {
+    el.style.visibility = 'visible'
+  })
 }
 
 function logoutUser() {
@@ -223,6 +222,9 @@ function logoutUser() {
   document.getElementById('signup-button').style.visibility = 'visible'
   document.getElementById('login-button').style.visibility = 'visible'
   document.getElementById('logout-button').style.visibility = 'hidden'
+  document.getElementsByName('user-markers').forEach((el) => {
+    el.style.visibility = 'hidden'
+  })
 }
 
 document.addEventListener('DOMContentLoaded', function (e) {
