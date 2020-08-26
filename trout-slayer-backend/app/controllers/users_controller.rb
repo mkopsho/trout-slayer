@@ -7,8 +7,7 @@ class UsersController < ApplicationController
     if user.save
       render json: user, except: [:password, :created_at, :updated_at]
     else
-      # To do: handle this error in the frontend
-      render json: {status: "error", message: "That username is already taken. Please try again."}
+      render json: { status: "error", message: "That username is already taken. Please try again." }
     end
   end
 

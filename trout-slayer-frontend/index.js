@@ -1,5 +1,4 @@
 const markersAdapter = new MarkersAdapter()
-
 const BASE_URL = 'http://localhost:3000'
 const MARKERS_URL = `${BASE_URL}/markers`
 const USERS_URL = `${BASE_URL}/users`
@@ -174,11 +173,11 @@ function saveUser(username, email, password) {
       return response.json()
     })
     .then((data) => {
-      console.log('Success:', data)
-      setUser(data.id)
+      data.status == 'error' ? errorHandler(data.message) : setUser(data.id)
     })
     .catch((error) => {
       console.log(error)
+      errorHandler(error)
     })
 }
 
@@ -199,11 +198,11 @@ function logInUser(username, password) {
       return response.json()
     })
     .then((data) => {
-      console.log('Success:', data)
-      setUser(data.id)
+      data.status == 'error' ? errorHandler(data.message) : setUser(data.id)
     })
     .catch((error) => {
       console.log(error)
+      errorHandler(error)
     })
 }
 
@@ -239,6 +238,15 @@ function toggleListener() {
       }
     })
   })
+}
+
+function errorHandler(error) {
+  errorModal = document.getElementById('modal')
+  errorModal.innerHTML = `<h2>Error!</h2><p id="modal-message">${error}</p>`
+  errorModal.style.visibility = 'visible'
+  setTimeout(function () {
+    errorModal.style.visibility = 'hidden'
+  }, 3000)
 }
 
 document.addEventListener('DOMContentLoaded', function (e) {

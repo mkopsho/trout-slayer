@@ -7,8 +7,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       render json: user, except: [:email, :password_digest, :created_at, :updated_at]
     else
-      # To do: handle this error in the frontend
-      render json: {status: "error", message: "Invalid credentials. Please try again."}
+      render json: { status: "error", message: "Invalid credentials. Please try again." }
     end
   end
 

@@ -16,6 +16,7 @@ class MarkersAdapter {
       })
       .catch((error) => {
         console.log(error)
+        errorHandler(error)
       })
   }
 
@@ -47,6 +48,7 @@ class MarkersAdapter {
       })
       .catch((error) => {
         console.log(error)
+        errorHandler(error)
       })
   }
 }
