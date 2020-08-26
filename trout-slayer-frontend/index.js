@@ -3,6 +3,7 @@ const markersAdapter = new MarkersAdapter()
 const BASE_URL = 'http://localhost:3000'
 const MARKERS_URL = `${BASE_URL}/markers`
 const USERS_URL = `${BASE_URL}/users`
+const SESSIONS_URL = `${BASE_URL}/sessions`
 
 function createMap() {
   // To do: try geolocation
@@ -116,10 +117,14 @@ function signupAndLoginListeners() {
     let email = document.getElementById('signup-email').value
     let password = document.getElementById('signup-password').value
     saveUser(username, email, password)
+    closeForm()
     e.preventDefault()
   })
   loginForm.addEventListener('submit', function (e) {
-    console.log('log-in form submitted but should not reload')
+    let username = document.getElementById('login-username').value
+    let password = document.getElementById('login-password').value
+    logInUser(username, password)
+    closeForm()
     e.preventDefault()
   })
   // Listen to the buttons to show associated forms
@@ -129,7 +134,6 @@ function signupAndLoginListeners() {
     openSignupForm()
   })
   loginButton.addEventListener('click', function () {
-    console.log('login button clicked')
     openLoginForm()
   })
 }
@@ -157,12 +161,36 @@ function saveUser(username, email, password) {
       Accept: 'application/json',
     },
     body: JSON.stringify({
-      username: username,
-      email: email,
-      password: password,
+      username,
+      email,
+      password,
     }),
   }
   fetch(USERS_URL, userObj)
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      console.log('Success:', data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+function logInUser(username, password) {
+  let sessionObj = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      username,
+      password,
+    }),
+  }
+  fetch(SESSIONS_URL, sessionObj)
     .then((response) => {
       return response.json()
     })

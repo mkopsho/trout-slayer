@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
+      # To do: handle this session data in the frontend
       render json: user, except: [:password, :created_at, :updated_at]
     else
       # To do: handle this error in the frontend
