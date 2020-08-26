@@ -142,7 +142,6 @@ function signupAndLoginListeners() {
   })
 }
 
-// Handle forms (in index.html; hidden by default)
 function openSignupForm() {
   document.getElementById('signup-form').style.visibility = 'visible'
 }
@@ -177,9 +176,6 @@ function saveUser(username, email, password) {
     .then((data) => {
       console.log('Success:', data)
       setUser(data.id)
-      document.getElementById('signup-button').style.visibility = 'hidden'
-      document.getElementById('login-button').style.visibility = 'hidden'
-      document.getElementById('logout-button').style.visibility = 'visible'
     })
     .catch((error) => {
       console.log(error)
@@ -205,9 +201,6 @@ function logInUser(username, password) {
     .then((data) => {
       console.log('Success:', data)
       setUser(data.id)
-      document.getElementById('signup-button').style.visibility = 'hidden'
-      document.getElementById('login-button').style.visibility = 'hidden'
-      document.getElementById('logout-button').style.visibility = 'visible'
     })
     .catch((error) => {
       console.log(error)
@@ -215,7 +208,6 @@ function logInUser(username, password) {
 }
 
 function setUser(id) {
-<<<<<<< HEAD
   session.id = id
   document.getElementById('signup-button').style.visibility = 'hidden'
   document.getElementById('login-button').style.visibility = 'hidden'
@@ -224,9 +216,6 @@ function setUser(id) {
     el.style.visibility = 'visible'
   })
   toggleListener()
-=======
-  session.push(id)
->>>>>>> parent of f1191b4... Add checkbox toggle
 }
 
 function logoutUser() {
@@ -234,6 +223,9 @@ function logoutUser() {
   document.getElementById('signup-button').style.visibility = 'visible'
   document.getElementById('login-button').style.visibility = 'visible'
   document.getElementById('logout-button').style.visibility = 'hidden'
+  document.getElementsByName('user-markers').forEach((el) => {
+    el.style.visibility = 'hidden'
+  })
 }
 
 function toggleListener() {
