@@ -21,7 +21,7 @@ class UsersAdapter {
         return response.json()
       })
       .then((data) => {
-        data.status == 'error' ? errorHandler(data.message) : setUser(data.id)
+        data.status == 'error' ? errorHandler(data.message) : this.setUser(data.id)
       })
       .catch((error) => {
         console.log(error)
@@ -46,11 +46,22 @@ class UsersAdapter {
         return response.json()
       })
       .then((data) => {
-        data.status == 'error' ? errorHandler(data.message) : setUser(data.id)
+        data.status == 'error' ? errorHandler(data.message) : this.setUser(data.id)
       })
       .catch((error) => {
         console.log(error)
         errorHandler(error)
       })
+  }
+
+  setUser(id) {
+    session.id = id
+    document.getElementById('signup-button').style.visibility = 'hidden'
+    document.getElementById('login-button').style.visibility = 'hidden'
+    document.getElementById('logout-button').style.visibility = 'visible'
+    document.getElementsByName('user-markers').forEach((el) => {
+      el.style.visibility = 'visible'
+    })
+    toggleButtonListener()
   }
 }

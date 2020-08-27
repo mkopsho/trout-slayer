@@ -87,7 +87,7 @@ function placeMarker(marker, latLng, map, infoWindow) {
   marker.addListener('click', function () {
     infoWindow.open(map, marker)
   })
-  formListenerAndValueGatherer(marker, latLng, infoWindow)
+  formListenerAndValueGatherer(latLng, infoWindow)
 }
 
 function formListenerAndValueGatherer(latLng, infoWindow) {
@@ -119,8 +119,6 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
   })
 }
 
-// Signup and login
-// To do: move User things to a User class and adapter
 function signupAndLoginListeners() {
   const signupForm = document.getElementById('signup-form')
   const loginForm = document.getElementById('login-form')
@@ -165,17 +163,6 @@ function closeForm() {
   document.querySelectorAll('.form-popup').forEach((form) => {
     form.style.visibility = 'hidden'
   })
-}
-
-function setUser(id) {
-  session.id = id
-  document.getElementById('signup-button').style.visibility = 'hidden'
-  document.getElementById('login-button').style.visibility = 'hidden'
-  document.getElementById('logout-button').style.visibility = 'visible'
-  document.getElementsByName('user-markers').forEach((el) => {
-    el.style.visibility = 'visible'
-  })
-  toggleButtonListener()
 }
 
 function logoutUser() {
