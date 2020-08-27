@@ -5,11 +5,12 @@ const SESSIONS_URL = 'http://localhost:3000/sessions'
 const MAP_ICONS = 'http://maps.google.com/mapfiles/ms/icons/'
 
 let session = {}
-let allMarkers = []
+let googleMarkers = []
+let map
 
 function createMap() {
   // To do: try geolocation
-  const map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 39.809, lng: -98.555 },
     zoom: 5,
   })
@@ -21,38 +22,6 @@ function createMap() {
     }
   })
   markersAdapter.fetchSavedMarkers(map)
-}
-
-function renderSavedMarkers(markers, map) {
-  markers.forEach((marker) => {
-    const latLng = { lat: parseFloat(marker.lat), lng: parseFloat(marker.long) }
-    const newMarker = new google.maps.Marker({
-      position: latLng,
-      label: marker.user_id.toString(),
-      id: marker.id,
-      icon: MAP_ICONS + 'fishing.png',
-    })
-    const markerContent = `
-    <div id="infowindow">
-      <h2 style="color:black">${marker.title}</h2>
-      <strong>Description:</strong> <p>${marker.description}</p>
-      <strong>Fish:</strong> <p>${marker.fish_type}</p>
-      <strong>Lure:</strong> <p>${marker.lure_and_bait}</p>
-      <strong>Weather:</strong> <p>${marker.weather_conditions}</p>
-      <button id="delete-button" type="button">Delete</button>
-    </div>
-      `
-    const infoWindow = new google.maps.InfoWindow({
-      content: markerContent,
-      maxWidth: 250,
-    })
-    allMarkers.push(newMarker)
-    newMarker.setMap(map)
-    deleteListener(newMarker, infoWindow)
-    google.maps.event.addListener(newMarker, 'click', function () {
-      infoWindow.open(map, newMarker)
-    })
-  })
 }
 
 function createNewMarker(latLng, map) {
@@ -80,7 +49,7 @@ function createNewMarker(latLng, map) {
     content: markerForm,
     maxWidth: 200,
   })
-  allMarkers.push(marker)
+  googleMarkers.push(marker)
   placeMarker(marker, latLng, map, infoWindow)
 }
 
@@ -121,7 +90,7 @@ function formListenerAndValueGatherer(marker, latLng, infoWindow) {
         newMarkerWeather,
       }
       markersAdapter.saveMarker(latLng, saveArgs, session)
-      deleteListener(marker, infoWindow)
+      deleteButtonListener(marker, infoWindow)
       e.preventDefault()
     })
   })
@@ -155,7 +124,8 @@ function signupAndLoginListeners() {
     openLoginForm()
   })
   logoutButton.addEventListener('click', function () {
-    logoutUser()
+    let user = User.all.find((user) => user.id === session.id)
+    user.logout()
   })
 }
 
@@ -173,34 +143,24 @@ function closeForm() {
   })
 }
 
-function logoutUser() {
-  session = {}
-  document.getElementById('signup-button').style.visibility = 'visible'
-  document.getElementById('login-button').style.visibility = 'visible'
-  document.getElementById('logout-button').style.visibility = 'hidden'
-  document.getElementsByName('user-markers').forEach((el) => {
-    el.style.visibility = 'hidden'
-  })
-}
-
 function toggleButtonListener() {
   const toggleButton = document.querySelector('#user-markers')
   toggleButton.addEventListener('change', function () {
     if (this.checked) {
-      allMarkers.forEach((marker) => {
+      googleMarkers.forEach((marker) => {
         if (marker.label == session.id) {
           marker.setIcon(MAP_ICONS + 'red-dot.png')
         }
       })
     } else {
-      allMarkers.forEach((marker) => {
+      googleMarkers.forEach((marker) => {
         marker.setIcon(MAP_ICONS + 'fishing.png')
       })
     }
   })
 }
 
-function deleteListener(marker, infoWindow) {
+function deleteButtonListener(marker, infoWindow) {
   infoWindow.addListener('domready', function () {
     const deleteButton = document.querySelector('#delete-button')
     deleteButton.addEventListener('click', function (e) {
@@ -216,7 +176,7 @@ function errorHandler(error) {
   errorModal.style.visibility = 'visible'
   setTimeout(function () {
     errorModal.style.visibility = 'hidden'
-  }, 3000)
+  }, 4000)
 }
 
 document.addEventListener('DOMContentLoaded', function (e) {

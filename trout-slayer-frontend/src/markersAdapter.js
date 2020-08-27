@@ -3,16 +3,16 @@ class MarkersAdapter {
     this.baseUrl = 'http://localhost:3000/markers'
   }
 
-  fetchSavedMarkers(map) {
+  fetchSavedMarkers() {
     fetch(this.baseUrl)
       .then((response) => {
         return response.json()
       })
       .then((markers) => {
         markers.forEach((marker) => {
-          new Marker(marker)
+          let newMarker = new Marker(marker)
+          newMarker.render()
         })
-        renderSavedMarkers(markers, map)
       })
       .catch((error) => {
         console.log(error)
