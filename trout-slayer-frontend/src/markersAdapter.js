@@ -38,7 +38,7 @@ class MarkersAdapter {
         long: latLng.lng(),
       }),
     }
-    fetch(MARKERS_URL, configObj)
+    fetch(this.baseUrl, configObj)
       .then((response) => {
         return response.json()
       })

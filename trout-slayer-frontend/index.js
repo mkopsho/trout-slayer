@@ -1,14 +1,11 @@
 const markersAdapter = new MarkersAdapter()
-const BASE_URL = 'http://localhost:3000'
-const MARKERS_URL = `${BASE_URL}/markers`
-const USERS_URL = `${BASE_URL}/users`
-const SESSIONS_URL = `${BASE_URL}/sessions`
+const usersAdapter = new UsersAdapter()
+
+const SESSIONS_URL = 'http://localhost:3000/sessions'
 const MAP_ICONS = 'http://maps.google.com/mapfiles/ms/icons/'
 
 let session = {}
 let allMarkers = []
-
-// To do: explore custom popups with edit/delete directives
 
 function createMap() {
   // To do: try geolocation
@@ -48,7 +45,6 @@ function renderSavedMarkers(markers, map) {
     })
     allMarkers.push(newMarker)
     newMarker.setMap(map)
-    editAndDeleteListeners(newMarker, infoWindow)
     google.maps.event.addListener(newMarker, 'click', function () {
       infoWindow.open(map, newMarker)
     })
@@ -118,7 +114,6 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
         newMarkerWeather,
       }
       markersAdapter.saveMarker(latLng, saveArgs, session)
-      editAndDeleteListeners(marker, infoWindow)
       e.preventDefault()
     })
   })
@@ -133,14 +128,14 @@ function signupAndLoginListeners() {
     let username = document.getElementById('signup-username').value
     let email = document.getElementById('signup-email').value
     let password = document.getElementById('signup-password').value
-    saveUser(username, email, password)
+    usersAdapter.saveUser(username, email, password)
     closeForm()
     e.preventDefault()
   })
   loginForm.addEventListener('submit', function (e) {
     let username = document.getElementById('login-username').value
     let password = document.getElementById('login-password').value
-    logInUser(username, password)
+    usersAdapter.logInUser(username, password)
     closeForm()
     e.preventDefault()
   })
@@ -170,57 +165,6 @@ function closeForm() {
   document.querySelectorAll('.form-popup').forEach((form) => {
     form.style.visibility = 'hidden'
   })
-}
-
-function saveUser(username, email, password) {
-  let userObj = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      username,
-      email,
-      password,
-    }),
-  }
-  fetch(USERS_URL, userObj)
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      data.status == 'error' ? errorHandler(data.message) : setUser(data.id)
-    })
-    .catch((error) => {
-      console.log(error)
-      errorHandler(error)
-    })
-}
-
-function logInUser(username, password) {
-  let sessionObj = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      username,
-      password,
-    }),
-  }
-  fetch(SESSIONS_URL, sessionObj)
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      data.status == 'error' ? errorHandler(data.message) : setUser(data.id)
-    })
-    .catch((error) => {
-      console.log(error)
-      errorHandler(error)
-    })
 }
 
 function setUser(id) {

@@ -19,7 +19,6 @@ class Marker {
     this.long = long
     this.id = id
     this.user_id = user_id
-
     Marker.all.push(this)
   }
 }
