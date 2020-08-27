@@ -40,8 +40,8 @@ function renderSavedMarkers(markers, map) {
       <strong>Fish:</strong> <p>${marker.fish_type}</p>
       <strong>Lure:</strong> <p>${marker.lure_and_bait}</p>
       <strong>Weather:</strong> <p>${marker.weather_conditions}</p>
-      <input onclick="editMarker()" type="button" value="Edit">
-      <input onclick="deleteMarker()" type="button" value="Delete">
+      <button id="edit-button" type="button">Edit</button>
+      <button id="delete-button" type="button">Delete</button>
       `
     const infoWindow = new google.maps.InfoWindow({
       content: markerContent,
@@ -49,6 +49,7 @@ function renderSavedMarkers(markers, map) {
     })
     allMarkers.push(newMarker)
     newMarker.setMap(map)
+    editAndDeleteListeners(newMarker, infoWindow)
     google.maps.event.addListener(newMarker, 'click', function () {
       infoWindow.open(map, newMarker)
     })
@@ -91,10 +92,10 @@ function placeMarker(marker, latLng, map, infoWindow) {
   marker.addListener('click', function () {
     infoWindow.open(map, marker)
   })
-  formListenerAndValueGatherer(latLng, infoWindow)
+  formListenerAndValueGatherer(marker, latLng, infoWindow)
 }
 
-function formListenerAndValueGatherer(marker, latLng, infoWindow) {
+function formListenerAndValueGatherer(latLng, infoWindow) {
   infoWindow.addListener('domready', function () {
     document.querySelector('form').addEventListener('submit', function (e) {
       const newMarkerTitle = document.getElementById('new-marker-title').value
@@ -108,8 +109,8 @@ function formListenerAndValueGatherer(marker, latLng, infoWindow) {
         <strong>Fish:</strong> <p>${newMarkerFish}</p>
         <strong>Lure:</strong> <p>${newMarkerLure}</p>
         <strong>Weather:</strong> <p>${newMarkerWeather}</p>
-        <input onclick="editMarker()" type="button" value="Edit">
-        <input onclick="deleteMarker()" type="button" value="Delete">
+        <button id="edit-button" type="button">Edit</button>
+        <button id="delete-button" type="button">Delete</button>
       `
       infoWindow.setContent(newMarkerContent)
       let saveArgs = {
@@ -120,9 +121,42 @@ function formListenerAndValueGatherer(marker, latLng, infoWindow) {
         newMarkerWeather,
       }
       markersAdapter.saveMarker(latLng, saveArgs, session)
+      editAndDeleteListeners(marker, infoWindow)
       e.preventDefault()
     })
   })
+}
+
+// More marker stuff -- move to markersAdapter.js
+function editAndDeleteListeners(marker, infoWindow) {
+  infoWindow.addListener('domready', function () {
+    const editButton = document.querySelector('#edit-button')
+    const deleteButton = document.querySelector('#delete-button')
+    editButton.addEventListener('click', function (e) {
+      editMarker(marker)
+      e.preventDefault()
+    })
+    deleteButton.addEventListener('click', function (e) {
+      deleteMarker(marker)
+      e.preventDefault()
+    })
+  })
+}
+
+function editMarker(marker) {
+  if (session.id == marker.label) {
+    console.log('can be edited by user')
+  } else {
+    errorHandler('You do not have the correct permissions to do that.')
+  }
+}
+
+function deleteMarker(marker) {
+  if (session.id == marker.label) {
+    console.log('can be deleted by user')
+  } else {
+    errorHandler('You do not have the correct permissions to do that.')
+  }
 }
 
 // Signup and login
@@ -248,7 +282,6 @@ function logoutUser() {
 function toggleButtonListener() {
   const toggleButton = document.querySelector('#user-markers')
   toggleButton.addEventListener('change', function () {
-    console.log('Toggle was toggled')
     if (this.checked) {
       allMarkers.forEach((marker) => {
         if (marker.label == session.id) {
@@ -261,16 +294,6 @@ function toggleButtonListener() {
       })
     }
   })
-}
-
-// More marker stuff -- move to markersAdapter.js
-function editMarker(e) {
-  console.log('edit marker was clicked')
-  debugger
-}
-
-function deleteMarker() {
-  console.log('delete marker was clicked')
 }
 
 function errorHandler(error) {
