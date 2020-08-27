@@ -30,7 +30,6 @@ html, body {
   padding: 0;
 }
 
-/* Not perfect, but it works on dynamically-sized windows */
 .form-popup {
   position: absolute;
   bottom: 35%;

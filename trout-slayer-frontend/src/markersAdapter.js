@@ -51,4 +51,32 @@ class MarkersAdapter {
         errorHandler(error)
       })
   }
+
+  deleteMarker(marker) {
+    if (session.id === parseInt(marker.label)) {
+      console.log('can be deleted by user')
+      let markerObj = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({ id: marker.id }),
+      }
+      fetch(`${this.baseUrl}/${marker.id}`, markerObj)
+        .then(function (response) {
+          return response.json()
+        })
+        .then(function (data) {
+          console.log('Success:', data)
+          marker.setMap(null)
+        })
+        .catch(function (error) {
+          console.log(error)
+          errorHandler(error)
+        })
+    } else {
+      errorHandler('You do not have the correct permissions to do that.')
+    }
+  }
 }

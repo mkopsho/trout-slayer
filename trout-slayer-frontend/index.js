@@ -38,6 +38,7 @@ function renderSavedMarkers(markers, map) {
       <strong>Fish:</strong> <p>${marker.fish_type}</p>
       <strong>Lure:</strong> <p>${marker.lure_and_bait}</p>
       <strong>Weather:</strong> <p>${marker.weather_conditions}</p>
+      <button id="delete-button" type="button">Delete</button>
       `
     const infoWindow = new google.maps.InfoWindow({
       content: markerContent,
@@ -45,6 +46,7 @@ function renderSavedMarkers(markers, map) {
     })
     allMarkers.push(newMarker)
     newMarker.setMap(map)
+    deleteListener(newMarker, infoWindow)
     google.maps.event.addListener(newMarker, 'click', function () {
       infoWindow.open(map, newMarker)
     })
@@ -87,10 +89,10 @@ function placeMarker(marker, latLng, map, infoWindow) {
   marker.addListener('click', function () {
     infoWindow.open(map, marker)
   })
-  formListenerAndValueGatherer(latLng, infoWindow)
+  formListenerAndValueGatherer(marker, latLng, infoWindow)
 }
 
-function formListenerAndValueGatherer(latLng, infoWindow) {
+function formListenerAndValueGatherer(marker, latLng, infoWindow) {
   infoWindow.addListener('domready', function () {
     document.querySelector('form').addEventListener('submit', function (e) {
       const newMarkerTitle = document.getElementById('new-marker-title').value
@@ -104,6 +106,7 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
         <strong>Fish:</strong> <p>${newMarkerFish}</p>
         <strong>Lure:</strong> <p>${newMarkerLure}</p>
         <strong>Weather:</strong> <p>${newMarkerWeather}</p>
+        <button id="delete-button" type="button">Delete</button>
       `
       infoWindow.setContent(newMarkerContent)
       let saveArgs = {
@@ -114,6 +117,7 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
         newMarkerWeather,
       }
       markersAdapter.saveMarker(latLng, saveArgs, session)
+      deleteListener(marker, infoWindow)
       e.preventDefault()
     })
   })
@@ -189,6 +193,16 @@ function toggleButtonListener() {
         marker.setIcon(MAP_ICONS + 'fishing.png')
       })
     }
+  })
+}
+
+function deleteListener(marker, infoWindow) {
+  infoWindow.addListener('domready', function () {
+    const deleteButton = document.querySelector('#delete-button')
+    deleteButton.addEventListener('click', function (e) {
+      markersAdapter.deleteMarker(marker)
+      e.preventDefault()
+    })
   })
 }
 
