@@ -30,22 +30,22 @@ html, body {
   padding: 0;
 }
 
-/* Fix this */
+/* Not perfect, but it works on dynamically-sized windows */
 .form-popup {
   position: absolute;
-  bottom: 300px;
-  right: 600px;
-  z-index: 9;
+  bottom: 35%;
+  right: 40%;
   border-style: outset;
 }
 
 .form-container {
+  max-width: 100%;
   max-width: 300px;
   padding: 10px;
-  background-color: white;
+  background-color: rgb(157, 192, 92);
 }
 
-#modal {
+#error-modal {
   position: absolute;
   bottom: 300px;
   right: 600px;

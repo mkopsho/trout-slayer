@@ -260,8 +260,8 @@ function toggleButtonListener() {
 }
 
 function errorHandler(error) {
-  errorModal = document.getElementById('modal')
-  errorModal.innerHTML = `<h2>Error!</h2><p id="modal-message">${error}</p>`
+  errorModal = document.getElementById('error-modal')
+  errorModal.innerHTML = `<h2>Error!</h2><p id="error-modal-message">${error}</p>`
   errorModal.style.visibility = 'visible'
   setTimeout(function () {
     errorModal.style.visibility = 'hidden'
