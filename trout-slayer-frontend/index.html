@@ -24,42 +24,43 @@
     <h2>Error!</h2>
     <p id="modal-message"></p>
   </div>
-  <div id="map"></div>
-  <br>
   <div style="text-align:center">
     <button id="signup-button" type="button">Sign up</button>
-    <button id="login-button" type="button">Log in</button>
+    <button id="login-button" type="button">Log in</button><br>
     <button id="logout-button" type="button" style="visibility:hidden">Log Out</button>
-    <div class="form-popup" id="signup-form" style="visibility:hidden">
-      <form class="form-container">
-        <h1>Sign up</h1>
-        <label for="username"><b>Username</b></label>
-        <input type="text" id="signup-username" placeholder="Enter username" name="username"><br>
+  </div>
+  <div id="map"></div>
+  <br>
+  <div class="form-popup" id="signup-form" style="visibility:hidden">
+    <form class="form-container">
+      <h1>Sign up</h1>
+      <label for="username"><b>Username</b></label>
+      <input type="text" id="signup-username" placeholder="Enter username" name="username"><br>
 
-        <label for="email"><b>Email</b></label>
-        <input type="text" id="signup-email" placeholder="Enter Email" name="email"><br>
+      <label for="email"><b>Email</b></label>
+      <input type="text" id="signup-email" placeholder="Enter Email" name="email"><br>
 
-        <label for="password"><b>Password</b></label>
-        <input type="password" id="signup-password" placeholder="Enter Password" name="password"><br><br>
+      <label for="password"><b>Password</b></label>
+      <input type="password" id="signup-password" placeholder="Enter Password" name="password"><br><br>
 
-        <input type="submit" value="Sign up">
-        <input type="button" onclick="closeForm()" value="Close">
-      </form>
-    </div>
+      <input type="submit" value="Sign up">
+      <input type="button" onclick="closeForm()" value="Close">
+    </form>
+  </div>
 
-    <div class="form-popup" id="login-form" style="visibility:hidden">
-      <form class="form-container">
-        <h1>Log in</h1>
-        <label for="username"><b>Username</b></label>
-        <input type="text" id="login-username" placeholder="Enter username" name="username"><br>
+  <div class="form-popup" id="login-form" style="visibility:hidden">
+    <form class="form-container">
+      <h1>Log in</h1>
+      <label for="username"><b>Username</b></label>
+      <input type="text" id="login-username" placeholder="Enter username" name="username"><br>
 
-        <label for="password"><b>Password</b></label>
-        <input type="password" id="login-password" placeholder="Enter Password" name="password"><br><br>
+      <label for="password"><b>Password</b></label>
+      <input type="password" id="login-password" placeholder="Enter Password" name="password"><br><br>
 
-        <input type="submit" value="Log in">
-        <input type="button" onclick="closeForm()" value="Close">
-      </form>
-    </div>
+      <input type="submit" value="Log in">
+      <input type="button" onclick="closeForm()" value="Close">
+    </form>
+  </div>
   </div>
   <br>
 </body>

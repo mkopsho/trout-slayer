@@ -35,7 +35,7 @@ function renderSavedMarkers(markers, map) {
       icon: MAP_ICONS + 'fishing.png',
     })
     const markerContent = `
-      <h1>${marker.title}</h1>
+      <h2>${marker.title}</h2>
       <strong>Description:</strong> <p>${marker.description}</p>
       <strong>Fish:</strong> <p>${marker.fish_type}</p>
       <strong>Lure:</strong> <p>${marker.lure_and_bait}</p>
@@ -43,7 +43,7 @@ function renderSavedMarkers(markers, map) {
     `
     const infoWindow = new google.maps.InfoWindow({
       content: markerContent,
-      maxWidth: 200,
+      maxWidth: 250,
     })
     allMarkers.push(newMarker)
     newMarker.setMap(map)
@@ -101,7 +101,7 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
       const newMarkerLure = document.getElementById('new-marker-lure-bait').value
       const newMarkerWeather = document.getElementById('new-marker-weather-conditions').value
       const newMarkerContent = `
-        <h1>${newMarkerTitle}</h1>
+        <h2>${newMarkerTitle}</h2>
         <strong>Description:</strong> <p>${newMarkerDesc}</p>
         <strong>Fish:</strong> <p>${newMarkerFish}</p>
         <strong>Lure:</strong> <p>${newMarkerLure}</p>

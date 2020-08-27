@@ -12,6 +12,10 @@ h1 {
   line-height: 54px;
 }
 
+h2 {
+  font-family: 'goldenmetafor';
+}
+
 #map {
   height: 85%;
 }
