@@ -33,12 +33,14 @@ function renderSavedMarkers(markers, map) {
       icon: MAP_ICONS + 'fishing.png',
     })
     const markerContent = `
-      <h2>${marker.title}</h2>
+    <div id="infowindow">
+      <h2 style="color:black">${marker.title}</h2>
       <strong>Description:</strong> <p>${marker.description}</p>
       <strong>Fish:</strong> <p>${marker.fish_type}</p>
       <strong>Lure:</strong> <p>${marker.lure_and_bait}</p>
       <strong>Weather:</strong> <p>${marker.weather_conditions}</p>
       <button id="delete-button" type="button">Delete</button>
+    </div>
       `
     const infoWindow = new google.maps.InfoWindow({
       content: markerContent,
@@ -61,7 +63,7 @@ function createNewMarker(latLng, map) {
     icon: MAP_ICONS + 'fishing.png',
   })
   const markerForm = `
-  <form id="marker-form">
+  <form id="infowindow">
     <label for="title">Title:</label><br>
     <input type="text" id="new-marker-title" name="title">
     <label for="Description">Description:</label><br>
@@ -101,12 +103,14 @@ function formListenerAndValueGatherer(marker, latLng, infoWindow) {
       const newMarkerLure = document.getElementById('new-marker-lure-bait').value
       const newMarkerWeather = document.getElementById('new-marker-weather-conditions').value
       const newMarkerContent = `
-        <h2>${newMarkerTitle}</h2>
+      <div id="infowindow">
+        <h2 style="color:black">${newMarkerTitle}</h2>
         <strong>Description:</strong> <p>${newMarkerDesc}</p>
         <strong>Fish:</strong> <p>${newMarkerFish}</p>
         <strong>Lure:</strong> <p>${newMarkerLure}</p>
         <strong>Weather:</strong> <p>${newMarkerWeather}</p>
         <button id="delete-button" type="button">Delete</button>
+      </div>
       `
       infoWindow.setContent(newMarkerContent)
       let saveArgs = {

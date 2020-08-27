@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'goldenmetafor';
-  src: url('./assets/golden-metafor-regular.woff2') format('woff2'),
-       url('./assets/golden-metafor-regular.woff') format('woff');
+  src: url('./assets/fonts/golden-metafor-regular.woff2') format('woff2'),
+       url('./assets/fonts/golden-metafor-regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,6 +14,7 @@ h1 {
 
 h2 {
   font-family: 'goldenmetafor';
+  color: lightgray;
 }
 
 #map {
@@ -24,15 +25,24 @@ h2 {
   text-align: center;
 }
 
-html, body {
+html {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
+body {
+  color: lightcoral;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: url('./assets/images/trout_scales.jpg');
+  background-color: #ebbd82;
+}
+
 .form-popup {
   position: absolute;
-  bottom: 35%;
+  bottom: 32%;
   right: 40%;
   border-style: outset;
 }
@@ -41,7 +51,11 @@ html, body {
   max-width: 100%;
   max-width: 300px;
   padding: 10px;
-  background-color: rgb(157, 192, 92);
+  background-color: darkslategrey;
+}
+
+#infowindow {
+  color: black
 }
 
 #error-modal {
@@ -52,7 +66,7 @@ html, body {
   border-style: outset;
 
   border-radius: 10px;
-  background-color: maroon;
+  background-color: darkred;
   color: white;
 
   margin: 1em;
