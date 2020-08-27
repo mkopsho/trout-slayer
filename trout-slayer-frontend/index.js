@@ -40,7 +40,9 @@ function renderSavedMarkers(markers, map) {
       <strong>Fish:</strong> <p>${marker.fish_type}</p>
       <strong>Lure:</strong> <p>${marker.lure_and_bait}</p>
       <strong>Weather:</strong> <p>${marker.weather_conditions}</p>
-    `
+      <input onclick="editMarker()" type="button" value="Edit">
+      <input onclick="deleteMarker()" type="button" value="Delete">
+      `
     const infoWindow = new google.maps.InfoWindow({
       content: markerContent,
       maxWidth: 250,
@@ -92,7 +94,7 @@ function placeMarker(marker, latLng, map, infoWindow) {
   formListenerAndValueGatherer(latLng, infoWindow)
 }
 
-function formListenerAndValueGatherer(latLng, infoWindow) {
+function formListenerAndValueGatherer(marker, latLng, infoWindow) {
   infoWindow.addListener('domready', function () {
     document.querySelector('form').addEventListener('submit', function (e) {
       const newMarkerTitle = document.getElementById('new-marker-title').value
@@ -106,6 +108,8 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
         <strong>Fish:</strong> <p>${newMarkerFish}</p>
         <strong>Lure:</strong> <p>${newMarkerLure}</p>
         <strong>Weather:</strong> <p>${newMarkerWeather}</p>
+        <input onclick="editMarker()" type="button" value="Edit">
+        <input onclick="deleteMarker()" type="button" value="Delete">
       `
       infoWindow.setContent(newMarkerContent)
       let saveArgs = {
@@ -122,7 +126,7 @@ function formListenerAndValueGatherer(latLng, infoWindow) {
 }
 
 // Signup and login
-// To do: move to classes/adapters
+// To do: move User things to a User class and adapter
 function signupAndLoginListeners() {
   const signupForm = document.getElementById('signup-form')
   const loginForm = document.getElementById('login-form')
@@ -257,6 +261,16 @@ function toggleButtonListener() {
       })
     }
   })
+}
+
+// More marker stuff -- move to markersAdapter.js
+function editMarker(e) {
+  console.log('edit marker was clicked')
+  debugger
+}
+
+function deleteMarker() {
+  console.log('delete marker was clicked')
 }
 
 function errorHandler(error) {
