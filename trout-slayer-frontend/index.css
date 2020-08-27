@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'goldenmetafor';
+  src: url('./assets/golden-metafor-regular.woff2') format('woff2'),
+       url('./assets/golden-metafor-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1 {
+  font-family: 'goldenmetafor';
+  font-size: 60px;
+  line-height: 54px;
+}
+
 #map {
   height: 85%;
 }
