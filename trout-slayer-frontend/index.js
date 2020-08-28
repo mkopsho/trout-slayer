@@ -99,6 +99,7 @@ function deleteButtonListener(marker, infoWindow) {
     const deleteButton = document.querySelector('#delete-button')
     deleteButton.addEventListener('click', function (e) {
       markersAdapter.deleteMarker(marker)
+      debugger
       marker.setMap(null)
       e.preventDefault()
     })
