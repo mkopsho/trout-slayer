@@ -70,6 +70,7 @@ class MarkersAdapter {
         })
         .then(function (data) {
           console.log('Success:', data)
+          marker.setMap(null)
         })
         .catch(function (error) {
           console.log(error)
