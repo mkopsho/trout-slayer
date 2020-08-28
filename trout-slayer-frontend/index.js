@@ -4,11 +4,11 @@ const usersAdapter = new UsersAdapter()
 const MAP_ICONS = 'http://maps.google.com/mapfiles/ms/icons/'
 
 let session = {}
-let googleMarkers = [] // Need to keep track of our Google Markers, as well!
+let googleMarkers = []
 let map
 
 function createMap() {
-  // To do: try geolocation
+  // To do: try geolocation, marker heatmaps/clustering
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 39.809, lng: -98.555 },
     zoom: 5,

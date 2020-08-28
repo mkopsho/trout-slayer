@@ -8,9 +8,12 @@ class User {
 
   set() {
     session.id = this.id
+    let username = this.username
     document.getElementById('signup-button').style.visibility = 'hidden'
     document.getElementById('login-button').style.visibility = 'hidden'
     document.getElementById('logout-button').style.visibility = 'visible'
+    document.getElementById('logged-in-as').innerText = `(Logged in as ${username})`
+    document.getElementById('logged-in-as').style.visibility = 'visible'
     document.getElementsByName('user-markers').forEach((el) => {
       el.style.visibility = 'visible'
     })
@@ -22,6 +25,7 @@ class User {
     document.getElementById('signup-button').style.visibility = 'visible'
     document.getElementById('login-button').style.visibility = 'visible'
     document.getElementById('logout-button').style.visibility = 'hidden'
+    document.getElementById('logged-in-as').style.visibility = 'hidden'
     document.getElementsByName('user-markers').forEach((el) => {
       el.style.visibility = 'hidden'
     })
