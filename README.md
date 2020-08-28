@@ -29,10 +29,10 @@ Navigate to the `trout-slayer-frontend` and run the frontend http-server:
 ```
 http-server
 ```
-This will start the frontend web server at [http://localhost:8080](http://localhost:8080)]. You should be able to see the app now!
+This will start the frontend web server at [http://localhost:8080](http://localhost:8080). You should be able to see the app now!
 
 ## Google Maps API Key
-In order to use this locally, you'll need your own Google Maps API Key. Follow the instructions [here](https://developers.google.com/maps/documentation/javascript/get-api-key) to set one up, then replace `YOUR_API-KEY` line in `index.html` with your key:
+In order to use this locally, you'll need your own Google Maps API Key. Follow the instructions [here](https://developers.google.com/maps/documentation/javascript/get-api-key) to set one up, then replace `YOUR_API_KEY` line in `index.html` with your key:
 ```
 index.html:12:
 <script defer src="https://maps.googleapis.com/maps/api/js?key=[YOUR_API_KEY]&callback=createMap"></script>
