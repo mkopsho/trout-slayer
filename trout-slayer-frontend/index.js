@@ -1,11 +1,10 @@
 const markersAdapter = new MarkersAdapter()
 const usersAdapter = new UsersAdapter()
 
-const SESSIONS_URL = 'http://localhost:3000/sessions'
 const MAP_ICONS = 'http://maps.google.com/mapfiles/ms/icons/'
 
 let session = {}
-let googleMarkers = []
+let googleMarkers = [] // Need to keep track of our Google Markers, as well!
 let map
 
 function createMap() {
@@ -60,10 +59,10 @@ function placeMarker(marker, latLng, map, infoWindow) {
   marker.addListener('click', function () {
     infoWindow.open(map, marker)
   })
-  formListenerAndValueGatherer(marker, latLng, infoWindow)
+  formListenerAndContentGatherer(marker, latLng, infoWindow)
 }
 
-function formListenerAndValueGatherer(marker, latLng, infoWindow) {
+function formListenerAndContentGatherer(marker, latLng, infoWindow) {
   infoWindow.addListener('domready', function () {
     document.querySelector('form').addEventListener('submit', function (e) {
       const newMarkerTitle = document.getElementById('new-marker-title').value
@@ -71,7 +70,7 @@ function formListenerAndValueGatherer(marker, latLng, infoWindow) {
       const newMarkerFish = document.getElementById('new-marker-fish-type').value
       const newMarkerLure = document.getElementById('new-marker-lure-bait').value
       const newMarkerWeather = document.getElementById('new-marker-weather-conditions').value
-      const newMarkerContent = `
+      const formContent = `
       <div id="infowindow">
         <h2 style="color:black">${newMarkerTitle}</h2>
         <strong>Description:</strong> <p>${newMarkerDesc}</p>
@@ -81,7 +80,7 @@ function formListenerAndValueGatherer(marker, latLng, infoWindow) {
         <button id="delete-button" type="button">Delete</button>
       </div>
       `
-      infoWindow.setContent(newMarkerContent)
+      infoWindow.setContent(formContent)
       let saveArgs = {
         newMarkerTitle,
         newMarkerDesc,
@@ -96,7 +95,7 @@ function formListenerAndValueGatherer(marker, latLng, infoWindow) {
   })
 }
 
-function signupAndLoginListeners() {
+function signupAndLoginButtonListeners() {
   const signupForm = document.getElementById('signup-form')
   const loginForm = document.getElementById('login-form')
   signupForm.addEventListener('submit', function (e) {
@@ -181,5 +180,5 @@ function errorHandler(error) {
 
 document.addEventListener('DOMContentLoaded', function (e) {
   createMap()
-  signupAndLoginListeners()
+  signupAndLoginButtonListeners()
 })

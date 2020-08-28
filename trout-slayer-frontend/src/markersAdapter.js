@@ -42,9 +42,9 @@ class MarkersAdapter {
       .then((response) => {
         return response.json()
       })
-      .then((data) => {
-        console.log('Success:', data)
-        new Marker(data)
+      .then((marker) => {
+        console.log('Success:', marker)
+        new Marker(marker)
       })
       .catch((error) => {
         console.log(error)

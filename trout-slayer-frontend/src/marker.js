@@ -51,35 +51,6 @@ class Marker {
       infoWindow.open(map, newMarker)
     })
   }
-
-  create() {
-    const marker = new google.maps.Marker({
-      animation: google.maps.Animation.DROP,
-      position: e.latLng,
-      label: session.id.toString(),
-      icon: MAP_ICONS + 'fishing.png',
-    })
-    googleMarkers.push(marker)
-    const markerForm = `
-    <form id="infowindow">
-      <label for="title">Title:</label><br>
-      <input type="text" id="new-marker-title" name="title">
-      <label for="Description">Description:</label><br>
-      <input type="text" id="new-marker-description" name="description">
-      <label for="Fish">Fish Type:</label><br>
-      <input type="text" id="new-marker-fish-type" name="fish-type">
-      <label for="Fish">Lure and/or bait:</label><br>
-      <input type="text" id="new-marker-lure-bait" name="lure-bait">
-      <label for="Fish">Weather conditions:</label><br>
-      <input type="text" id="new-marker-weather-conditions" name="weather-conditions">
-      <input type="submit" value="Submit catch">
-    </form>`
-    const infoWindow = new google.maps.InfoWindow({
-      content: markerForm,
-      maxWidth: 200,
-    })
-    placeMarker(marker, latLng, map, infoWindow)
-  }
 }
 
 Marker.all = []

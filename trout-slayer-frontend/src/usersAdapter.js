@@ -1,6 +1,7 @@
 class UsersAdapter {
   constructor() {
     this.baseUrl = 'http://localhost:3000/users'
+    this.sessionsUrl = 'http://localhost:3000/sessions'
   }
 
   saveUser(username, email, password) {
@@ -42,7 +43,7 @@ class UsersAdapter {
         password,
       }),
     }
-    fetch(SESSIONS_URL, sessionObj)
+    fetch(this.sessionsUrl, sessionObj)
       .then((response) => {
         return response.json()
       })
