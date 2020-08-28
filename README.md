@@ -2,7 +2,7 @@
 # trout-slayer
 A small web app to help track where you've caught some fish.
 
-If you like fishing, this app can help you track where, when, and under what conditions (like weather, gear, lure/bait, etc.) you caught your fish. This data is public to everyone in order to help us all because better fishers!
+If you like fishing, this app can help you track where, when, and under what conditions (like weather, gear, lure/bait, etc.) you caught your fish. This data is public to everyone in order to help us all become better fishers!
 
 # Installation for Local Dev
 ## Rails backend
