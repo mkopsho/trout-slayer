@@ -4,7 +4,6 @@ class MarkersAdapter {
   }
 
   fetchSavedMarkers() {
-    console.log('render called!')
     fetch(this.baseUrl)
       .then((response) => {
         return response.json()
@@ -12,7 +11,6 @@ class MarkersAdapter {
       .then((markers) => {
         markers.forEach((marker) => {
           let newMarker = new Marker(marker)
-          console.log(marker)
           newMarker.render()
         })
       })
@@ -22,7 +20,7 @@ class MarkersAdapter {
       })
   }
 
-  saveMarker(latLng, saveArgs, session) {
+  saveMarker(marker, latLng, saveArgs, session) {
     let configObj = {
       method: 'POST',
       headers: {
@@ -44,9 +42,10 @@ class MarkersAdapter {
       .then((response) => {
         return response.json()
       })
-      .then((marker) => {
-        console.log('Success:', marker)
-        new Marker(marker)
+      .then((data) => {
+        console.log('Success:', data)
+        let newMarker = new Marker(data)
+        marker.set('id', newMarker.id)
       })
       .catch((error) => {
         console.log(error)

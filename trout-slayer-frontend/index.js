@@ -87,7 +87,7 @@ function formListenerAndContentGatherer(marker, latLng, infoWindow) {
         newMarkerLure,
         newMarkerWeather,
       }
-      markersAdapter.saveMarker(latLng, saveArgs, session)
+      markersAdapter.saveMarker(marker, latLng, saveArgs, session)
       deleteButtonListener(marker, infoWindow)
       e.preventDefault()
     })
@@ -99,6 +99,7 @@ function deleteButtonListener(marker, infoWindow) {
     const deleteButton = document.querySelector('#delete-button')
     deleteButton.addEventListener('click', function (e) {
       markersAdapter.deleteMarker(marker)
+      debugger
       marker.setMap(null)
       e.preventDefault()
     })
