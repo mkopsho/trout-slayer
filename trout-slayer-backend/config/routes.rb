@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :markers
-  resources :users
-  resources :sessions
+  resources :users, only: [:create]
+  resources :sessions, only: [:create]
+  resources :markers, except: [:update]
 end

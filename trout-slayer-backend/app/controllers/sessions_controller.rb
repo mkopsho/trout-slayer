@@ -1,7 +1,4 @@
 class SessionsController < ApplicationController
-  def index
-  end
-
   def create
     user = User.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
@@ -13,6 +10,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session.clear
-    render json: {status: "success", message: "Session cleared."}
+    render json: { status: "success", message: "Session cleared." }
   end
 end
