@@ -20,7 +20,6 @@ function createMap() {
       errorHandler('Create a user or log in first!')
     }
   })
-  markersAdapter.fetchSavedMarkers(map)
 }
 
 function createNewMarker(latLng, map) {
@@ -95,6 +94,17 @@ function formListenerAndContentGatherer(marker, latLng, infoWindow) {
   })
 }
 
+function deleteButtonListener(marker, infoWindow) {
+  infoWindow.addListener('domready', function () {
+    const deleteButton = document.querySelector('#delete-button')
+    deleteButton.addEventListener('click', function (e) {
+      markersAdapter.deleteMarker(marker)
+      marker.setMap(null)
+      e.preventDefault()
+    })
+  })
+}
+
 function signupAndLoginButtonListeners() {
   const signupForm = document.getElementById('signup-form')
   const loginForm = document.getElementById('login-form')
@@ -159,16 +169,6 @@ function toggleButtonListener() {
   })
 }
 
-function deleteButtonListener(marker, infoWindow) {
-  infoWindow.addListener('domready', function () {
-    const deleteButton = document.querySelector('#delete-button')
-    deleteButton.addEventListener('click', function (e) {
-      markersAdapter.deleteMarker(marker)
-      e.preventDefault()
-    })
-  })
-}
-
 function errorHandler(error) {
   errorModal = document.getElementById('error-modal')
   errorModal.innerHTML = `<h2>Error!</h2><p id="error-modal-message">${error}</p>`
@@ -180,5 +180,6 @@ function errorHandler(error) {
 
 document.addEventListener('DOMContentLoaded', function (e) {
   createMap()
+  markersAdapter.fetchSavedMarkers(map)
   signupAndLoginButtonListeners()
 })

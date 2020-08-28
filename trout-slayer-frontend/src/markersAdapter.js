@@ -4,6 +4,7 @@ class MarkersAdapter {
   }
 
   fetchSavedMarkers() {
+    console.log('render called!')
     fetch(this.baseUrl)
       .then((response) => {
         return response.json()
@@ -11,6 +12,7 @@ class MarkersAdapter {
       .then((markers) => {
         markers.forEach((marker) => {
           let newMarker = new Marker(marker)
+          console.log(marker)
           newMarker.render()
         })
       })
@@ -69,7 +71,6 @@ class MarkersAdapter {
         })
         .then(function (data) {
           console.log('Success:', data)
-          marker.setMap(null)
         })
         .catch(function (error) {
           console.log(error)
