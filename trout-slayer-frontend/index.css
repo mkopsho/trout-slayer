@@ -80,3 +80,7 @@ body {
 #modal p {
   margin-bottom: 0;
 }
+
+#like-button {
+  color: red
+}

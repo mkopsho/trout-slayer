@@ -79,7 +79,10 @@ function formListenerAndContentGatherer(marker, latLng, infoWindow) {
         <strong>Fish:</strong> <p>${newMarkerFish}</p>
         <strong>Lure:</strong> <p>${newMarkerLure}</p>
         <strong>Weather:</strong> <p>${newMarkerWeather}</p>
-        <button id="delete-button" type="button">Delete</button>
+        <div>
+          <button id="delete-button" type="button">Delete</button>
+          <span class="unliked" id="like-button">| Like ♡</span>
+        </div>
       </div>
       `
       infoWindow.setContent(formContent)
@@ -91,20 +94,39 @@ function formListenerAndContentGatherer(marker, latLng, infoWindow) {
         newMarkerWeather,
       }
       markersAdapter.saveMarker(marker, latLng, saveArgs, session)
-      deleteButtonListener(marker, infoWindow)
+      deleteAndLikeButtonListener(marker, infoWindow)
       e.preventDefault()
     })
   })
 }
 
-function deleteButtonListener(marker, infoWindow) {
+function deleteAndLikeButtonListener(marker, infoWindow) {
   infoWindow.addListener('domready', function () {
     const deleteButton = document.querySelector('#delete-button')
+    const likeButton = document.querySelector('#like-button')
     deleteButton.addEventListener('click', function (e) {
       markersAdapter.deleteMarker(marker)
       e.preventDefault()
     })
+    likeButton.addEventListener('click', function (e) {
+      likeMarker(likeButton)
+    })
   })
+}
+
+function likeMarker(likeButton) {
+  // To persist this data:
+  // 1. Add a `likes` counter to the marker class (and display it in infoWindow),
+  // 2. A `likes` column on our `markers` table,
+  // 3. A fetch using PATCH or PUTS called everytime the like button is clicked,
+  // 4. An update action in our MarkersController to update the record and send JSON back.
+  if (likeButton.className === 'unliked') {
+    likeButton.className = 'liked'
+    likeButton.innerText = '| Unlike ♥'
+  } else {
+    likeButton.className = 'unliked'
+    likeButton.innerText = '| Like ♡'
+  }
 }
 
 function signupAndLoginButtonListeners() {
@@ -155,14 +177,11 @@ function closeForm() {
 }
 
 function toggleButtonListener() {
-  const toggleButton = document.querySelector('#user-markers')
+  const toggleButton = document.querySelector('#toggle-button')
   toggleButton.addEventListener('change', function () {
     if (this.checked) {
-      googleMarkers.forEach((marker) => {
-        if (marker.label == session.id) {
-          marker.setIcon(MAP_ICONS + 'red-dot.png')
-        }
-      })
+      let toggledMarkers = googleMarkers.filter((marker) => marker.label == session.id)
+      toggledMarkers.forEach((marker) => marker.setIcon(MAP_ICONS + 'red-dot.png'))
     } else {
       googleMarkers.forEach((marker) => {
         marker.setIcon(MAP_ICONS + 'fishing.png')

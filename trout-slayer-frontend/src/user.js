@@ -14,9 +14,8 @@ class User {
     document.getElementById('logout-button').style.visibility = 'visible'
     document.getElementById('logged-in-as').innerText = `(Logged in as ${username})`
     document.getElementById('logged-in-as').style.visibility = 'visible'
-    document.getElementsByName('user-markers').forEach((el) => {
-      el.style.visibility = 'visible'
-    })
+    document.getElementById('toggle-button').style.visibility = 'visible'
+    document.getElementById('toggle-text').style.visibility = 'visible'
     toggleButtonListener()
   }
 
@@ -26,9 +25,8 @@ class User {
     document.getElementById('login-button').style.visibility = 'visible'
     document.getElementById('logout-button').style.visibility = 'hidden'
     document.getElementById('logged-in-as').style.visibility = 'hidden'
-    document.getElementsByName('user-markers').forEach((el) => {
-      el.style.visibility = 'hidden'
-    })
+    document.getElementById('toggle-button').style.visibility = 'hidden'
+    document.getElementById('toggle-text').style.visibility = 'hidden'
   }
 }
 

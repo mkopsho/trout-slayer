@@ -37,7 +37,10 @@ class Marker {
       <strong>Fish:</strong> <p>${this.fish_type}</p>
       <strong>Lure:</strong> <p>${this.lure_and_bait}</p>
       <strong>Weather:</strong> <p>${this.weather_conditions}</p>
-      <button id="delete-button" type="button">Delete</button>
+      <div>
+        <button id="delete-button" type="button">Delete</button>
+        <span class="unliked" id="like-button">| Like ♡</span>
+      </div>
     </div>
       `
     const infoWindow = new google.maps.InfoWindow({
@@ -46,7 +49,7 @@ class Marker {
     })
     googleMarkers.push(newMarker)
     newMarker.setMap(map)
-    deleteButtonListener(newMarker, infoWindow)
+    deleteAndLikeButtonListener(newMarker, infoWindow)
     google.maps.event.addListener(newMarker, 'click', function () {
       infoWindow.open(map, newMarker)
     })
