@@ -54,5 +54,13 @@ Before hosting this publicly, I will be refactoring this app to authenticate use
 # Contributing
 Pull requests are not only welcome, they're encouraged! For major changes, please open an issue first to discuss what you would like to change.
 
+* * *
+
+# Demo and Blog
+
+Demo: https://www.youtube.com/watch?v=Ylq7dlym4gg
+
+Blog: https://kopsho.cafe/blog/slaying-trout-with-json.html
+
 # License
 [MIT](./LICENSE)
