@@ -1,6 +1,6 @@
 class MarkersAdapter {
   constructor() {
-    this.baseUrl = 'http://localhost:3000/markers'
+    this.baseUrl = 'https://peaceful-tor-06133.herokuapp.com/markers'
   }
 
   fetchSavedMarkers() {

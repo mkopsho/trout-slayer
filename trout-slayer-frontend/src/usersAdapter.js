@@ -1,7 +1,7 @@
 class UsersAdapter {
   constructor() {
-    this.baseUrl = 'http://localhost:3000/users'
-    this.sessionsUrl = 'http://localhost:3000/sessions'
+    this.baseUrl = 'https://peaceful-tor-06133.herokuapp.com/users'
+    this.sessionsUrl = 'https://peaceful-tor-06133.herokuapp.com/sessions'
   }
 
   saveUser(username, email, password) {
