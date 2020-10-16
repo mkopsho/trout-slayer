@@ -81,7 +81,6 @@ function formListenerAndContentGatherer(marker, latLng, infoWindow) {
         <strong>Weather:</strong> <p>${newMarkerWeather}</p>
         <div>
           <button id="delete-button" type="button">Delete</button>
-          <span class="unliked" id="like-button">| Like ♡</span>
         </div>
       </div>
       `
@@ -94,39 +93,20 @@ function formListenerAndContentGatherer(marker, latLng, infoWindow) {
         newMarkerWeather,
       }
       markersAdapter.saveMarker(marker, latLng, saveArgs, session)
-      deleteAndLikeButtonListener(marker, infoWindow)
+      deleteButtonListener(marker, infoWindow)
       e.preventDefault()
     })
   })
 }
 
-function deleteAndLikeButtonListener(marker, infoWindow) {
+function deleteButtonListener(marker, infoWindow) {
   infoWindow.addListener('domready', function () {
     const deleteButton = document.querySelector('#delete-button')
-    const likeButton = document.querySelector('#like-button')
     deleteButton.addEventListener('click', function (e) {
       markersAdapter.deleteMarker(marker)
       e.preventDefault()
     })
-    likeButton.addEventListener('click', function (e) {
-      likeMarker(likeButton)
-    })
   })
-}
-
-function likeMarker(likeButton) {
-  // To persist this data:
-  // 1. Add a `likes` counter to the marker class (and display it in infoWindow),
-  // 2. A `likes` column on our `markers` table,
-  // 3. A fetch using PATCH or PUTS called everytime the like button is clicked,
-  // 4. An update action in our MarkersController to update the record and send JSON back.
-  if (likeButton.className === 'unliked') {
-    likeButton.className = 'liked'
-    likeButton.innerText = '| Unlike ♥'
-  } else {
-    likeButton.className = 'unliked'
-    likeButton.innerText = '| Like ♡'
-  }
 }
 
 function signupAndLoginButtonListeners() {

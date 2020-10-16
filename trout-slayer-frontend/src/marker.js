@@ -39,7 +39,6 @@ class Marker {
       <strong>Weather:</strong> <p>${this.weather_conditions}</p>
       <div>
         <button id="delete-button" type="button">Delete</button>
-        <span class="unliked" id="like-button">| Like ♡</span>
       </div>
     </div>
       `
@@ -49,7 +48,7 @@ class Marker {
     })
     googleMarkers.push(newMarker)
     newMarker.setMap(map)
-    deleteAndLikeButtonListener(newMarker, infoWindow)
+    deleteButtonListener(newMarker, infoWindow)
     google.maps.event.addListener(newMarker, 'click', function () {
       infoWindow.open(map, newMarker)
     })
